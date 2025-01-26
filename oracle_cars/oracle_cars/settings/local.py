@@ -23,14 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-x8f8-*42yy)h1sf-(s&j9n(ekx)t6ohn_val=%$tsqm8-xxd9g"
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -94,20 +93,10 @@ WSGI_APPLICATION = "oracle_cars.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'api_db',
-        'USER': os.environ.get("API_DB_USER"),
-        'PASSWORD': os.environ.get("API_DB_PASSWORD"),
-        'HOST': os.environ.get("API_DB_HOST"),
-        'PORT': os.environ.get("API_DB_PORT"),
-    }
-}
-# Use sqlite3 when testing, since mysql instance may not be instantiated.
-if "test" in sys.argv:
-    DATABASES["default"] = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -142,11 +131,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_ROOT = "/var/www/static"
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
