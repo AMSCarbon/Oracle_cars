@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
+from . import views
 
 urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
@@ -10,4 +11,7 @@ urlpatterns = [
     path("cars/<str:pk>/", views.CarDetailView.as_view(), name="car-details"),
     path("schedules/", views.ScheduleView.as_view(), name="schedules"),
     path("schedules/<str:pk>/", views.ScheduleDetailView.as_view(), name="schedule-details"),
+    path("branches/", views.BranchView.as_view(), name="branches"),
+    path("branches/<str:pk>/", views.BranchDetailView.as_view(), name="branch-details"),
+    path("branches/<str:pk>/inventory", views.BranchInventoryView.as_view(), name="branch-details"),
 ]

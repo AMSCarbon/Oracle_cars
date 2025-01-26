@@ -1,5 +1,6 @@
-from django import forms
 import datetime
+
+from django import forms
 
 # Helper class for quickly and cleanly handling date input.
 # Using a form instead of a serializer because I'm more validating form input

@@ -21,10 +21,13 @@ sleep 5
 
 # start django image
 echo "Starting car api container"
-docker run --name car-api -p 8000:8000 --network car-net --env API_DB_USER=root --env API_DB_PASSWORD=secret --env API_DB_HOST=car-db --env API_DB_PORT=3306 -d car-api:latest
+docker run --name car-api -p 8000:8000 --network car-net \
+  --env API_DB_USER=root --env API_DB_PASSWORD=secret \
+  --env API_DB_HOST=car-db --env API_DB_PORT=3306
+  --end CAR_API_DEPLOYMENT=PROD -d car-api:latest
 
 
-# Give docker some time to be properly up and running
+# Give the api some time to be properly up and running
 sleep 5
 
 # run db migrations via the django image to make sure our db is set up properly
