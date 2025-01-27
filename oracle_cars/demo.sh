@@ -23,8 +23,8 @@ sleep 5
 echo "Starting car api container"
 docker run --name car-api -p 8000:8000 --network car-net \
   --env API_DB_USER=root --env API_DB_PASSWORD=secret \
-  --env API_DB_HOST=car-db --env API_DB_PORT=3306
-  --end CAR_API_DEPLOYMENT=PROD -d car-api:latest
+  --env API_DB_HOST=car-db --env API_DB_PORT=3306 \
+  --env CAR_API_DEPLOYMENT=PROD -d car-api:latest
 
 
 # Give the api some time to be properly up and running

@@ -20,9 +20,9 @@ curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"id":"C7000", "bra
 curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"id":"C7001", "branch": "2", "make": "Holden", "model": "Captiva"}' 127.0.0.1:8000/api/cars/
 curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"id":"C7002", "branch": "2",  "make": "Holden", "model": "Captiva"}' 127.0.0.1:8000/api/cars/
 
-curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-02-01 08:00:00+00:00",  "duration": "12:00:00", "origin_branch":"1", "destination_branch":"1"}' 127.0.0.1:8000/api/schedules/
-curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-02-01 08:00:00+00:00",  "duration": "12:00:00", "origin_branch":"1", "destination_branch":"1"}' 127.0.0.1:8000/api/schedules/
-curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-02-01 08:00:00+00:00",  "duration": "72:00:00", "origin_branch":"1", "destination_branch":"2"}' 127.0.0.1:8000/api/schedules/
-curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-06-01 08:00:00+00:00",  "duration": "50:00:00", "origin_branch":"1", "destination_branch":"2"}' 127.0.0.1:8000/api/schedules/
-curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-09-01 08:00:00+00:00",  "duration": "01:00:00", "origin_branch":"2", "destination_branch":"2"}' 127.0.0.1:8000/api/schedules/
-curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-10-01 08:00:00+00:00",  "duration": "00:15:00", "origin_branch":"2", "destination_branch":"2"}' 127.0.0.1:8000/api/schedules/
+curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-02-01 08:00:00",  "duration": "12:00:00", "origin_branch":"1", "destination_branch":"1"}' 127.0.0.1:8000/api/schedules/
+curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-02-01 08:00:00",  "duration": "12:00:00", "origin_branch":"1", "destination_branch":"1"}' 127.0.0.1:8000/api/schedules/
+curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-02-01 08:00:00",  "duration": "72:00:00", "origin_branch":"1", "destination_branch":"2"}' 127.0.0.1:8000/api/schedules/
+curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-06-01 08:00:00",  "duration": "50:00:00", "origin_branch":"1", "destination_branch":"2"}' 127.0.0.1:8000/api/schedules/
+curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-09-01 08:00:00",  "duration": "01:00:00", "origin_branch":"2", "destination_branch":"2"}' 127.0.0.1:8000/api/schedules/
+curl -X POST -w "\n" -H 'Content-Type: application/json' -d '{"start_time":"2025-10-01 08:00:00",  "duration": "00:15:00", "origin_branch":"2", "destination_branch":"2"}' 127.0.0.1:8000/api/schedules/
