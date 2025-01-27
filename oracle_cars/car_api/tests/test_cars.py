@@ -25,13 +25,17 @@ class CarObjectTests(TestCase):
         expected_msg = "UNIQUE constraint failed: car_api_car.id"
 
         with self.assertRaises(IntegrityError) as context:
-            Car.objects.create(id="C1996", make="Honda", model="accord", branch=self.branch)
-            Car.objects.create(id="C1996", make="Honda", model="accord",  branch=self.branch)
+            Car.objects.create(
+                id="C1996", make="Honda", model="accord", branch=self.branch
+            )
+            Car.objects.create(
+                id="C1996", make="Honda", model="accord", branch=self.branch
+            )
 
         self.assertEqual(expected_msg, str(context.exception))
 
     def test_car_requires_make(self):
-        car = Car(id="C2003", make="", model="Falcon",  branch=self.branch)
+        car = Car(id="C2003", make="", model="Falcon", branch=self.branch)
         expected_msg = "{'make': ['This field cannot be blank.']}"
 
         with self.assertRaises(ValidationError) as context:
@@ -60,65 +64,80 @@ class CarAPITests(TransactionTestCase):
 
 class CarGetTests(CarAPITests):
     def test_get_all_cars(self):
-        expected_data = [{'id': 'C1996', 'make': 'Honda', 'model': "Accord", "branch":1},
-                         {'id': 'C2025', 'make': 'Ford', 'model': "Falcon", "branch":1}]
+        expected_data = [
+            {"id": "C1996", "make": "Honda", "model": "Accord", "branch": 1},
+            {"id": "C2025", "make": "Ford", "model": "Falcon", "branch": 1},
+        ]
 
-        response = self.client.get('/api/cars/', format='json')
+        response = self.client.get("/api/cars/", format="json")
 
         self.assertListEqual(response.data, expected_data)
 
     def test_get_specific_car(self):
-        expected_data = {'id': 'C1996', 'make': 'Honda', 'model': "Accord", "branch":1}
+        expected_data = {"id": "C1996", "make": "Honda", "model": "Accord", "branch": 1}
 
-        response = self.client.get('/api/cars/C1996/', format='json')
+        response = self.client.get("/api/cars/C1996/", format="json")
 
         self.assertEqual(response.data, expected_data)
 
 
 class CarPostTests(CarAPITests):
     def test_create_new_car(self):
-        car_data = {'id': 'C1981', 'make': 'DMC', 'model': "DeLorean", "branch":1}
+        car_data = {"id": "C1981", "make": "DMC", "model": "DeLorean", "branch": 1}
 
-        response = self.client.post('/api/cars/', car_data, format='json')
+        response = self.client.post("/api/cars/", car_data, format="json")
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, car_data)
 
     def test_create_new_car_duplicate_ID(self):
-        car_data = {'id': 'C2025', 'make': 'test', 'model': "test", "branch":1}
-        expected_error = {'id': [
-            ErrorDetail(string='car with this id already exists.',
-                        code='unique')]}
-        response = self.client.post('/api/cars/', car_data, format='json')
+        car_data = {"id": "C2025", "make": "test", "model": "test", "branch": 1}
+        expected_error = {
+            "id": [
+                ErrorDetail(string="car with this id already exists.", code="unique")
+            ]
+        }
+        response = self.client.post("/api/cars/", car_data, format="json")
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data, expected_error)
 
     def test_create_new_car_bad_ID(self):
-        car_data = {'id': 'ThisDoesntStartwithC', 'make': 'test',
-                    'model': "test", "branch":1}
-        expected_error = {'id': [
-            ErrorDetail(string='Car ID must start with C.', code='invalid')]}
-        response = self.client.post('/api/cars/', car_data, format='json')
+        car_data = {
+            "id": "ThisDoesntStartwithC",
+            "make": "test",
+            "model": "test",
+            "branch": 1,
+        }
+        expected_error = {
+            "id": [ErrorDetail(string="Car ID must start with C.", code="invalid")]
+        }
+        response = self.client.post("/api/cars/", car_data, format="json")
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data, expected_error)
 
     def test_create_new_car_missing_field(self):
-        car_data = {'id': 'C10000', 'make': 'test', 'branch': 1}
-        expected_error = {'model': [
-            ErrorDetail(string='This field is required.', code='required')]}
-        response = self.client.post('/api/cars/', car_data, format='json')
+        car_data = {"id": "C10000", "make": "test", "branch": 1}
+        expected_error = {
+            "model": [ErrorDetail(string="This field is required.", code="required")]
+        }
+        response = self.client.post("/api/cars/", car_data, format="json")
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data, expected_error)
 
     def test_create_new_car_additional_field(self):
-        car_data = {'id': 'C10001', 'make': 'test', 'model': "test", "branch":1,
-                    "meat_type": "chicken"}
-        expected = {'id': 'C10001', 'make': 'test', 'model': "test", "branch":1}
+        car_data = {
+            "id": "C10001",
+            "make": "test",
+            "model": "test",
+            "branch": 1,
+            "meat_type": "chicken",
+        }
+        expected = {"id": "C10001", "make": "test", "model": "test", "branch": 1}
 
-        response = self.client.post('/api/cars/', car_data, format='json')
+        response = self.client.post("/api/cars/", car_data, format="json")
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, expected)
@@ -126,39 +145,38 @@ class CarPostTests(CarAPITests):
 
 class CarPutTests(CarAPITests):
     def test_update_runs_normally(self):
-        car_data = {'make': 'test'}
-        expected_data = {'id': 'C1996', 'make': 'test', 'model': "Accord", "branch":1}
+        car_data = {"make": "test"}
+        expected_data = {"id": "C1996", "make": "test", "model": "Accord", "branch": 1}
 
-        response = self.client.put('/api/cars/C1996/', car_data, format='json')
+        response = self.client.put("/api/cars/C1996/", car_data, format="json")
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_data)
 
     def test_update_ignores_id_change(self):
-        car_data = {'id': 'C1997', 'model': "test"}
-        expected_data = {'id': 'C1996', 'make': 'Honda', 'model': "test", "branch":1}
+        car_data = {"id": "C1997", "model": "test"}
+        expected_data = {"id": "C1996", "make": "Honda", "model": "test", "branch": 1}
 
-        response = self.client.put('/api/cars/C1996/', car_data, format='json')
+        response = self.client.put("/api/cars/C1996/", car_data, format="json")
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_data)
 
     def test_404_when_id_not_found(self):
-        car_data = {'make': 'test', 'model': "test"}
+        car_data = {"make": "test", "model": "test"}
 
-        response = self.client.put('/api/cars/C987654321/', car_data,
-                                   format='json')
+        response = self.client.put("/api/cars/C987654321/", car_data, format="json")
 
         self.assertEqual(response.status_code, 404)
 
 
 class CarDeleteTests(CarAPITests):
     def test_delete_runs_normally(self):
-        response = self.client.delete('/api/cars/C1996/', format='json')
+        response = self.client.delete("/api/cars/C1996/", format="json")
 
         self.assertEqual(response.status_code, 204)
 
     def test_404_when_id_not_found(self):
-        response = self.client.delete('/api/cars/C987654321/', format='json')
+        response = self.client.delete("/api/cars/C987654321/", format="json")
 
         self.assertEqual(response.status_code, 404)

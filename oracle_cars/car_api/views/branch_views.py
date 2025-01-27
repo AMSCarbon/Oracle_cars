@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..models import Car,  Branch
+from ..models import Car, Branch
 from ..serializers import CarSerializer, BranchSerializer
 from ..utils import DoesNotExist_to_404, get_inventory_at_date
 
@@ -84,4 +84,6 @@ class BranchInventoryView(APIView):
         serializer = CarSerializer(available_cars, many=True)
         if available_cars:
             return Response(serializer.data, status.HTTP_200_OK)
-        return Response({"error": "No cars available for this time."}, status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"error": "No cars available for this time."}, status.HTTP_400_BAD_REQUEST
+        )

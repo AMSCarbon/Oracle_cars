@@ -7,6 +7,7 @@ from ..serializers import ScheduleSerializer
 from ..forms import TimeframeForm
 from ..utils import get_free_car_ids, DoesNotExist_to_404
 
+
 class ScheduleView(APIView):
     serializer_class = ScheduleSerializer
 
@@ -28,21 +29,30 @@ class ScheduleView(APIView):
         if not tff.is_valid():
             return Response(
                 {"error": "timeframe could not be parsed properly."},
-                status.HTTP_400_BAD_REQUEST)
+                status.HTTP_400_BAD_REQUEST,
+            )
         fill_data["end_time"] = tff.end
 
         # Move this into a function and raise errors if it fails.
         Branch.objects.get(pk=request.data["origin_branch"])  # trigger 404
-        available_cars = get_free_car_ids(request.data["origin_branch"], tff.start, tff.end)
+        available_cars = get_free_car_ids(
+            request.data["origin_branch"], tff.start, tff.end
+        )
 
         if not available_cars:
             return Response(
                 {"error": "No cars available for this time frame."},
-                status.HTTP_400_BAD_REQUEST)
+                status.HTTP_400_BAD_REQUEST,
+            )
         # If the user supplied a car ID, check if it's free.
-        if request.data.get("car_id") and request.data.get("car_id") not in available_cars:
-            return Response({"error": "Requested car is not available for this time frame."},
-                            status.HTTP_400_BAD_REQUEST)
+        if (
+            request.data.get("car_id")
+            and request.data.get("car_id") not in available_cars
+        ):
+            return Response(
+                {"error": "Requested car is not available for this time frame."},
+                status.HTTP_400_BAD_REQUEST,
+            )
         # we've got cars but haven't requested a specific one
         elif not request.data.get("car_id"):
             # No car provided, just use the first one in our list.

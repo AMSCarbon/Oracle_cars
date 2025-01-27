@@ -25,7 +25,9 @@ def validate_car_id(new_id):
 
 
 class Car(models.Model):
-    id = models.CharField(primary_key=True, validators=[validate_car_id], max_length=100)
+    id = models.CharField(
+        primary_key=True, validators=[validate_car_id], max_length=100
+    )
     make = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     # Make a required home branch and optional current branch, which would be
@@ -37,13 +39,14 @@ class Schedule(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     car_id = models.ForeignKey(Car, on_delete=models.CASCADE)
-    origin_branch = models.ForeignKey(Branch, on_delete=models.CASCADE,
-                                      related_name="+")
-    destination_branch = models.ForeignKey(Branch, on_delete=models.CASCADE,
-                                           related_name="+")
+    origin_branch = models.ForeignKey(
+        Branch, on_delete=models.CASCADE, related_name="+"
+    )
+    destination_branch = models.ForeignKey(
+        Branch, on_delete=models.CASCADE, related_name="+"
+    )
 
     def clean(self):
         super().clean()
         if self.start_time > self.end_time:
             raise ValidationError("start_time cannot be before end_time.")
-

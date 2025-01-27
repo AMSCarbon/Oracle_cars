@@ -8,5 +8,7 @@ from django.conf import settings
 urlpatterns = [
     path("", lambda _: redirect("/api/")),
     path("admin/", admin.site.urls),
-    path("api/", include("car_api.urls"))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # Apparently only for debug mode
+    path("api/", include("car_api.urls")),
+] + static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT
+)  # Apparently only for debug mode

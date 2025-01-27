@@ -63,4 +63,3 @@ class CarDetailView(APIView):
         car = Car.objects.get(pk=pk)
         car.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-

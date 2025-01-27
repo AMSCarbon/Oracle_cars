@@ -15,14 +15,17 @@ class TimeframeForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        if not (cleaned_data.get('duration') or cleaned_data.get('end_time')):
+        if not (cleaned_data.get("duration") or cleaned_data.get("end_time")):
             raise forms.ValidationError("duration or end_time are required.")
-        if cleaned_data.get('duration') and \
-                cleaned_data.get('duration') < datetime.timedelta(seconds=0):
+        if cleaned_data.get("duration") and cleaned_data.get(
+            "duration"
+        ) < datetime.timedelta(seconds=0):
             raise forms.ValidationError("duration cannot be negative")
-        if cleaned_data.get('end_time') and \
-                cleaned_data.get('start_time') > cleaned_data.get('end_time'):
+        if cleaned_data.get("end_time") and cleaned_data.get(
+            "start_time"
+        ) > cleaned_data.get("end_time"):
             raise forms.ValidationError("start_time cannot be after end_time.")
+
     @property
     def start(self):
         return self.cleaned_data["start_time"]
